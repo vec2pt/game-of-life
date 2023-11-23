@@ -87,6 +87,7 @@ class BoardViewer(tk.Frame):
     def __init__(self, master=None, *args, **kwargs):
         """Game board viewer (tk.Frame)"""
         super().__init__(master, *args, **kwargs)
+        ttk.Label(self, text="Ctrl+N - Create a new game.\nCtrl+O - Open the game.").pack(anchor=tk.CENTER, fill="y", expand=True)
         self.canvas = None
 
 
