@@ -1,7 +1,7 @@
 """"
 Conway's Game Of Life
 
-20221125
+20221125 (Last update: 20231123)
 
 Version: 1.0
 """
@@ -230,10 +230,3 @@ class GameOfLife:
         }
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
-
-
-# gol = GameOfLife.from_cells_file('/home/vlm/Downloads/gabrielsp138variant.cells')
-# gol = GameOfLife.from_cells_file('/home/vlm/Downloads/gabrielsp138.cells')
-# gol = GameOfLife.from_cells_file('/home/vlm/Downloads/84p199.cells')
-# print(gol.board)
-# gol.export_game('temp.json')
