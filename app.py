@@ -13,6 +13,7 @@ TODO:
 
 import tkinter as tk
 from tkinter import filedialog
+from pathlib import Path
 
 import numpy as np
 import ttkbootstrap as ttk
@@ -138,13 +139,18 @@ class App(tk.Frame):
     def _open_game(self, event):
         if hasattr(self, "newgamewindow"):
             self.newgamewindow.destroy()
-        filetypes = (("JSON files", "*.json"), ("All files", "*.*"))
+        filetypes = (("JSON file", "*.json"), ("cells file", "*.cells"), ("All file", "*.*"))
         filename = filedialog.askopenfilename(
             title="Open game",
             filetypes=filetypes,
         )
         if filename:
-            self.game = GameOfLife.from_json(filename)
+            extension = Path(filename).suffix
+            if extension != '.json' and extension != '.cells':
+                return
+            if extension == '.json':
+                self.game = GameOfLife.from_json(filename)
+            self.game = GameOfLife.from_cells_file(filename)
             self._var_board_width.set(self.game._board_width)
             self._var_board_height.set(self.game._board_height)
             self._var_initiate_randomly.set(self.game._initiate_randomly)

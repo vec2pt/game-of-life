@@ -93,6 +93,40 @@ class GameOfLife:
         new_game._board = array
         return new_game
 
+    @classmethod
+    def from_cells_file(cls, filepath: str, padding: int = 10):
+        """Create Conway's Game Of Life based on a cells file
+
+        Args:
+            filepath (str): cells file path.
+            padding (int): Board padding.
+
+        Returns:
+            GameOfLife: Conway's Game Of Life
+        """
+
+        temp_board = []
+        max_len = 0
+        with open(filepath, encoding="utf-8") as f:
+            for line in f:
+                if line.startswith('!'):
+                    continue
+                max_len = len(line)-1 if len(line)-1 > max_len else max_len
+                temp_board.append([0 if i=='.' else 1 for i in list(line)[:-1]])
+        temp_board = [i + [0]*(max_len-len(i)) for i in temp_board]
+        temp_board = np.array(temp_board, dtype=np.int64)
+        temp_board = np.pad(temp_board, ((padding, padding), (padding, padding)), constant_values=0)
+        board_height, board_width = temp_board.shape
+        new_game = cls(
+            board_width,
+            board_height,
+            in_box = False,
+            initiate_randomly=False,
+        )
+        new_game._board = temp_board
+        return new_game
+
+
     @property
     def board(self) -> np.ndarray:
         """Game board
@@ -196,3 +230,10 @@ class GameOfLife:
         }
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
+
+
+# gol = GameOfLife.from_cells_file('/home/vlm/Downloads/gabrielsp138variant.cells')
+# gol = GameOfLife.from_cells_file('/home/vlm/Downloads/gabrielsp138.cells')
+# gol = GameOfLife.from_cells_file('/home/vlm/Downloads/84p199.cells')
+# print(gol.board)
+# gol.export_game('temp.json')
