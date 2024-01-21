@@ -109,23 +109,28 @@ class GameOfLife:
         max_len = 0
         with open(filepath, encoding="utf-8") as f:
             for line in f:
-                if line.startswith('!'):
+                if line.startswith("!"):
                     continue
-                max_len = len(line)-1 if len(line)-1 > max_len else max_len
-                temp_board.append([0 if i=='.' else 1 for i in list(line)[:-1]])
-        temp_board = [i + [0]*(max_len-len(i)) for i in temp_board]
+                max_len = len(line) - 1 if len(line) - 1 > max_len else max_len
+                temp_board.append(
+                    [0 if i == "." else 1 for i in list(line)[:-1]]
+                )
+        temp_board = [i + [0] * (max_len - len(i)) for i in temp_board]
         temp_board = np.array(temp_board, dtype=np.int64)
-        temp_board = np.pad(temp_board, ((padding, padding), (padding, padding)), constant_values=0)
+        temp_board = np.pad(
+            temp_board,
+            ((padding, padding), (padding, padding)),
+            constant_values=0,
+        )
         board_height, board_width = temp_board.shape
         new_game = cls(
             board_width,
             board_height,
-            in_box = False,
+            in_box=False,
             initiate_randomly=False,
         )
         new_game._board = temp_board
         return new_game
-
 
     @property
     def board(self) -> np.ndarray:
